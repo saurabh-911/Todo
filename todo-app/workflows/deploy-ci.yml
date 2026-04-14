@@ -1,4 +1,4 @@
-name: deploy-ci
+name: deploy
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: github-pages   # 🔥 REQUIRED
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
