@@ -5,12 +5,18 @@ function TodoInput({ addTodo }) {
   const [category, setCategory] = useState("");
   const [dueDate, setDueDate] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    if (!title) return;
+    if (!title.trim()) {
+      return;
+    }
 
-    addTodo({ title, category, dueDate });
+    addTodo({
+      title: title.trim(),
+      category: category.trim(),
+      dueDate,
+    });
 
     setTitle("");
     setCategory("");
@@ -18,27 +24,36 @@ function TodoInput({ addTodo }) {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-  <input
-    placeholder="Enter task"
-    value={title}
-    onChange={(e) => setTitle(e.target.value)}
-  />
+    <form className="composer" onSubmit={handleSubmit}>
+      <div className="composer__intro">
+        <p className="section-label">Create note</p>
+        <h3>Pin a fresh task to the wall</h3>
+      </div>
 
-  <input
-    placeholder="Category"
-    value={category}
-    onChange={(e) => setCategory(e.target.value)}
-  />
-
-  <input
-    type="date"
-    value={dueDate}
-    onChange={(e) => setDueDate(e.target.value)}
-  />
-
-  <button className="btn">Add Task</button>
-</form>
+      <div className="composer__grid">
+        <input
+          aria-label="Task title"
+          placeholder="What needs to happen?"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <input
+          aria-label="Task category"
+          placeholder="List or category"
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        />
+        <input
+          aria-label="Due date"
+          type="date"
+          value={dueDate}
+          onChange={(event) => setDueDate(event.target.value)}
+        />
+        <button className="btn" type="submit">
+          Add Note
+        </button>
+      </div>
+    </form>
   );
 }
 

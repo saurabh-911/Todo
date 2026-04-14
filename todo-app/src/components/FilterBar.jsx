@@ -1,10 +1,23 @@
-function FilterBar({ setFilter }) {
+const FILTERS = [
+  { id: "all", label: "All" },
+  { id: "pending", label: "Open" },
+  { id: "completed", label: "Done" },
+];
+
+function FilterBar({ filter, setFilter }) {
   return (
     <div className="filters">
-  <button onClick={() => setFilter("all")}>All</button>
-  <button onClick={() => setFilter("completed")}>Completed</button>
-  <button onClick={() => setFilter("pending")}>Pending</button>
-</div>
+      {FILTERS.map((item) => (
+        <button
+          key={item.id}
+          className={filter === item.id ? "is-active" : ""}
+          onClick={() => setFilter(item.id)}
+          type="button"
+        >
+          {item.label}
+        </button>
+      ))}
+    </div>
   );
 }
 
