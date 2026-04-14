@@ -1,5 +1,5 @@
-name: deploy-ci
-
+name: frontend-ci
+  
 on:
   push:
     branches: [main]
@@ -10,17 +10,43 @@ permissions:
   id-token: write
 
 jobs:
+  build: 
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: 22
+      
+      - name: Install Dependencies
+        working-directory: ./todo-app
+        run: npm ci   # faster + reliable than npm install
+
+      - name: Build Project
+        working-directory: ./todo-app
+        run: npm run build
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./todo-app/dist
+
   deploy:
-    nedds: build
+    needs: build
     runs-on: ubuntu-latest
 
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+    
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  
