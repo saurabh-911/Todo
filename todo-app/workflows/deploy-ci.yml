@@ -24,7 +24,7 @@ jobs:
       
       - name: Install Dependencies
         working-directory: ./todo-app
-        run: npm ci   # faster + reliable than npm install
+        run: npm ci
 
       - name: Build Project
         working-directory: ./todo-app
